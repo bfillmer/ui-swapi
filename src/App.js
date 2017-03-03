@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
+import React from 'react'
+import ApolloClient, {createNetworkInterface} from 'apollo-client'
+import {ApolloProvider} from 'react-apollo'
 
-export default App;
+import {ConnectedCharacters} from './Characters.js'
+
+const networkInterface = createNetworkInterface({
+  uri: 'http://localhost:9000'
+})
+
+const client = new ApolloClient({
+  networkInterface,
+  dataIdFromObject: r => r.id
+})
+
+export const App = () => (
+  <ApolloProvider client={client}>
+    <ConnectedCharacters />
+  </ApolloProvider>
+)
